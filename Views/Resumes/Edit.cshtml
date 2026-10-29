@@ -1,0 +1,47 @@
+@model Resume
+@{ ViewData["Title"] = Model.Id == 0 ? "Create resume" : "Edit resume"; }
+<div class="container page-wrap editor-wrap">
+ <div class="page-heading"><div><div class="section-kicker">RESUME WORKSHOP</div><h1>@(Model.Id == 0 ? "Create your resume" : "Edit your resume")</h1><p>Fill in what you know. You can return and update it any time.</p></div><a asp-action="Index" class="btn btn-light">← My resumes</a></div>
+ <form asp-action="Save" method="post" id="resumeForm">
+  @Html.AntiForgeryToken()
+  <input asp-for="Id" type="hidden" />
+  <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+  <div class="editor-grid">
+   <div class="editor-main">
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">01</span><div><h2>Basics</h2><p>How should your resume introduce you?</p></div></div>
+     <div class="mb-3"><label asp-for="Title" class="form-label">Resume title</label><input asp-for="Title" class="form-control" placeholder="e.g. Software Developer Resume"/><span asp-validation-for="Title" class="text-danger"></span></div>
+     <div class="row g-3"><div class="col-md-6"><label asp-for="FullName" class="form-label">Full name *</label><input asp-for="FullName" class="form-control" placeholder="Your name"/><span asp-validation-for="FullName" class="text-danger"></span></div><div class="col-md-6"><label asp-for="Email" class="form-label">Email</label><input asp-for="Email" class="form-control" placeholder="you@example.com"/></div><div class="col-md-6"><label asp-for="Phone" class="form-label">Phone</label><input asp-for="Phone" class="form-control" placeholder="+91 ..."/></div><div class="col-md-6"><label asp-for="Location" class="form-label">Location</label><input asp-for="Location" class="form-control" placeholder="City, Country"/></div><div class="col-md-6"><label asp-for="LinkedInUrl" class="form-label">LinkedIn URL</label><input asp-for="LinkedInUrl" class="form-control" placeholder="linkedin.com/in/you"/></div><div class="col-md-6"><label asp-for="PortfolioUrl" class="form-label">Portfolio / GitHub</label><input asp-for="PortfolioUrl" class="form-control" placeholder="github.com/you"/></div></div>
+    </section>
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">02</span><div><h2>Professional summary</h2><p>A short snapshot of your strengths and goals.</p></div></div><textarea asp-for="Summary" id="Summary" class="form-control content-area" rows="4" placeholder="Write 2–4 sentences about your experience, strengths and goals..."></textarea><button type="button" class="btn btn-ai btn-sm mt-2" onclick="improveField('Summary','summary')">✦ Improve with AI</button></section>
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">03</span><div><h2>Experience</h2><p>Role, company, dates and what you contributed.</p></div></div><textarea asp-for="Experience" id="Experience" class="form-control content-area" rows="5" placeholder="Job title | Company | Dates&#10;• Describe a responsibility or achievement&#10;• Add another contribution"></textarea><button type="button" class="btn btn-ai btn-sm mt-2" onclick="improveField('Experience','bullets')">✦ Improve bullet points</button></section>
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">04</span><div><h2>Education</h2><p>Degrees, college, dates and relevant coursework.</p></div></div><textarea asp-for="Education" class="form-control content-area" rows="3" placeholder="Degree | Institution | Graduation year"></textarea></section>
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">05</span><div><h2>Projects</h2><p>Show work that demonstrates what you can do.</p></div></div><textarea asp-for="Projects" class="form-control content-area" rows="4" placeholder="Project name — tools used, purpose and your contribution."></textarea><button type="button" class="btn btn-ai btn-sm mt-2" onclick="improveField('Projects','bullets')">✦ Improve project bullets</button></section>
+    <section class="form-panel"><div class="panel-title"><span class="panel-number">06</span><div><h2>Skills & certifications</h2><p>Use commas or separate lines.</p></div></div><label asp-for="Skills" class="form-label">Skills</label><textarea asp-for="Skills" id="Skills" class="form-control content-area" rows="2" placeholder="C#, ASP.NET Core, MySQL, Communication"></textarea><button type="button" class="btn btn-ai btn-sm mt-2" onclick="improveField('Skills','skills')">✦ Get AI suggestions</button><label asp-for="Certifications" class="form-label mt-3">Certifications</label><textarea asp-for="Certifications" class="form-control content-area" rows="2" placeholder="Certification — issuing organization, year"></textarea></section>
+    <div class="d-flex gap-2 flex-wrap mb-4"><button type="submit" class="btn btn-primary btn-lg">Save & preview →</button><a asp-action="Index" class="btn btn-light btn-lg">Cancel</a></div>
+   </div>
+   <aside class="editor-aside"><div class="aside-sticky"><div class="aside-label">QUICK TIPS</div><h3>Make it count.</h3><ul><li>Keep your summary specific and concise.</li><li>Use action verbs for experience and projects.</li><li>Never add skills or results you cannot support.</li><li>Review the final version before sharing.</li></ul><div class="ai-note"><span>✦</span><div><strong>AI writing help</strong><p>AI suggestions are drafts. Check every detail for accuracy.</p></div></div><button type="button" class="btn btn-outline-dark w-100" onclick="window.print()">Print current form</button></div></aside>
+  </div>
+ </form>
+</div>
+@section Scripts {
+<script>
+async function improveField(id, task) {
+  const field = document.getElementById(id);
+  if (!field || !field.value.trim()) { alert("Add some details first, then ask AI to improve them."); return; }
+  const button = event.currentTarget;
+  const original = button.innerText;
+  button.disabled = true; button.innerText = "Working...";
+  try {
+    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+    const res = await fetch('@Url.Action("Improve", "Resumes")', {
+      method: 'POST', headers: {'Content-Type':'application/json','RequestVerificationToken':token},
+      body: JSON.stringify({task:task, content:field.value})
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "AI request failed.");
+    field.value = data.text;
+  } catch (e) { alert(e.message); }
+  finally { button.disabled = false; button.innerText = original; }
+}
+</script>
+}

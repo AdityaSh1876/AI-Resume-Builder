@@ -1,0 +1,35 @@
+@{ ViewData["Title"] = "Build a standout resume"; }
+<section class="hero-section">
+ <div class="container hero-grid">
+  <div class="hero-copy">
+   <div class="eyebrow"><span class="sparkle">✦</span> YOUR CAREER, REIMAGINED</div>
+   <h1>Make your next move<br><span class="gradient-text">your best one.</span></h1>
+   <p class="hero-lead">Create a clean, confident resume with AI assistance. Your experience, your story — presented at its best.</p>
+   <div class="d-flex gap-3 flex-wrap mt-4">
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg">Build my resume <span aria-hidden="true">→</span></a>
+    <a asp-controller="Resumes" asp-action="Index" class="btn btn-light btn-lg">Open dashboard</a>
+   </div>
+   <div class="hero-proof"><span class="proof-dot"></span> Easy to edit <span>·</span> Print-ready layouts <span>·</span> AI writing help</div>
+  </div>
+  <div class="hero-art">
+   <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+   <div class="floating-chip chip-top">✦ AI writing assistant</div>
+   <div class="resume-mock">
+    <div class="mock-header"><div class="mock-avatar">AS</div><div><div class="mock-name">ALEX MORGAN</div><div class="mock-role">PRODUCT DESIGNER</div></div></div>
+    <div class="mock-line wide"></div><div class="mock-line"></div>
+    <div class="mock-heading">EXPERIENCE</div><div class="mock-line wide"></div><div class="mock-line medium"></div><div class="mock-line wide"></div>
+    <div class="mock-heading">EDUCATION</div><div class="mock-line medium"></div>
+    <div class="mock-heading">SKILLS</div><div class="mock-tags"><i></i><i></i><i></i><i></i></div>
+   </div>
+   <div class="floating-chip chip-bottom"><span class="check-icon">✓</span> Ready to stand out</div>
+  </div>
+ </div>
+</section>
+<section class="container feature-section">
+ <div class="section-kicker">EVERYTHING YOU NEED</div><h2>Less formatting. More <span class="gradient-text">possibility.</span></h2>
+ <div class="row g-3 mt-3">
+  <div class="col-md-4"><div class="feature-card"><div class="feature-icon purple">✦</div><h3>AI writing assistant</h3><p>Refine your summary and bullet points without making up experience.</p></div></div>
+  <div class="col-md-4"><div class="feature-card"><div class="feature-icon mint">▤</div><h3>Live resume preview</h3><p>Shape your story and preview the printable layout as you go.</p></div></div>
+  <div class="col-md-4"><div class="feature-card"><div class="feature-icon peach">⌁</div><h3>Your resumes, saved</h3><p>Sign in to keep your resume drafts in your private workspace.</p></div></div>
+ </div>
+</section>

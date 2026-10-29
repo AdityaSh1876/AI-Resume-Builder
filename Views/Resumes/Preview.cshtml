@@ -1,0 +1,14 @@
+@model Resume
+@{ ViewData["Title"] = "Resume preview"; }
+<div class="container page-wrap">
+ <div class="page-heading no-print"><div><div class="section-kicker">FINAL REVIEW</div><h1>Your resume preview</h1><p>Check your details, then print or save as PDF.</p></div><div class="d-flex gap-2"><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-light">← Edit</a><button class="btn btn-primary" onclick="window.print()">↓ Save / Print PDF</button></div></div>
+ <article class="resume-paper">
+  <header class="paper-header"><h1>@Model.FullName</h1><div class="paper-contact">@Model.Email @if (!string.IsNullOrWhiteSpace(Model.Phone)){<span> · @Model.Phone</span>} @if (!string.IsNullOrWhiteSpace(Model.Location)){<span> · @Model.Location</span>}</div><div class="paper-contact">@Model.LinkedInUrl @if (!string.IsNullOrWhiteSpace(Model.PortfolioUrl)){<span> · @Model.PortfolioUrl</span>}</div></header>
+  @if (!string.IsNullOrWhiteSpace(Model.Summary)){<section class="paper-section"><h2>PROFESSIONAL SUMMARY</h2><p>@Model.Summary</p></section>}
+  @if (!string.IsNullOrWhiteSpace(Model.Experience)){<section class="paper-section"><h2>EXPERIENCE</h2><p class="preserve-lines">@Model.Experience</p></section>}
+  @if (!string.IsNullOrWhiteSpace(Model.Projects)){<section class="paper-section"><h2>PROJECTS</h2><p class="preserve-lines">@Model.Projects</p></section>}
+  @if (!string.IsNullOrWhiteSpace(Model.Education)){<section class="paper-section"><h2>EDUCATION</h2><p class="preserve-lines">@Model.Education</p></section>}
+  @if (!string.IsNullOrWhiteSpace(Model.Skills)){<section class="paper-section"><h2>SKILLS</h2><p class="preserve-lines">@Model.Skills</p></section>}
+  @if (!string.IsNullOrWhiteSpace(Model.Certifications)){<section class="paper-section"><h2>CERTIFICATIONS</h2><p class="preserve-lines">@Model.Certifications</p></section>}
+ </article>
+</div>

@@ -1,0 +1,11 @@
+ResumeCraft AI setup checklist
+[ ] Install .NET 8 SDK
+[ ] Install MySQL Server and confirm it is running
+[ ] Update ConnectionStrings:DefaultConnection in appsettings.json
+[ ] Run dotnet restore
+[ ] Run dotnet tool install --global dotnet-ef (once)
+[ ] Run dotnet ef migrations add InitialCreate
+[ ] Run dotnet ef database update
+[ ] Optional: set AI:GeminiApiKey with dotnet user-secrets
+[ ] Run dotnet run and open the printed local URL
+[ ] Register, sign in, create a resume, save, preview, and print to PDF

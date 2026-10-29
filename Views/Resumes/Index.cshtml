@@ -1,0 +1,14 @@
+@model IEnumerable<Resume>
+@{ ViewData["Title"] = "My resumes"; }
+<div class="container page-wrap">
+ <div class="page-heading"><div><div class="section-kicker">YOUR WORKSPACE</div><h1>My resumes</h1><p>Keep every version of your story in one place.</p></div><a asp-action="Create" class="btn btn-primary">＋ Create resume</a></div>
+ @if (!Model.Any()) {
+  <div class="empty-state"><div class="empty-icon">▤</div><h2>Your next opportunity starts here.</h2><p>Create your first resume and make it your own.</p><a asp-action="Create" class="btn btn-primary">Create my first resume</a></div>
+ } else {
+  <div class="row g-3">
+  @foreach (var resume in Model) {
+   <div class="col-md-6 col-xl-4"><div class="resume-card"><div class="resume-card-top"><span class="doc-icon">▤</span><span class="status-pill">Saved</span></div><h3>@resume.Title</h3><p>@(string.IsNullOrWhiteSpace(resume.FullName) ? "Add your name" : resume.FullName)</p><div class="card-date">Updated @resume.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy")</div><div class="card-actions"><a asp-action="Edit" asp-route-id="@resume.Id" class="btn btn-primary btn-sm">Edit</a><a asp-action="Preview" asp-route-id="@resume.Id" class="btn btn-light btn-sm">Preview</a><form asp-action="Delete" asp-route-id="@resume.Id" method="post" onsubmit="return confirm('Delete this resume?')"><button class="btn btn-outline-danger btn-sm" type="submit">Delete</button></form></div></div></div>
+  }
+  </div>
+ }
+</div>
